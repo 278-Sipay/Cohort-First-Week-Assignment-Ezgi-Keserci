@@ -111,8 +111,14 @@ namespace RestfulApi.Controllers
             }
 
             // Güncelleme işlemleri
-            game.Name = updatedGame.Name;
-            game.Platform = updatedGame.Platform;
+            game.Name = updatedGame.Name != null ? updatedGame.Name : game.Name;
+            game.Description = updatedGame.Description != null ? updatedGame.Description : game.Description;
+            game.Genre = updatedGame.Genre != null ? updatedGame.Genre : game.Genre;
+            game.Developer = updatedGame.Developer != null ? updatedGame.Developer : game.Developer;
+            game.Publisher = updatedGame.Publisher != null ? updatedGame.Publisher : game.Publisher;
+            game.ReleaseDate = updatedGame.ReleaseDate != null ? updatedGame.ReleaseDate : game.ReleaseDate;
+            game.Platform = updatedGame.Platform != null ? updatedGame.Platform : game.Platform;
+            game.Price = updatedGame.Price != null ? updatedGame.Price : game.Price;
 
             return Ok(game);
         }
