@@ -122,5 +122,41 @@ namespace RestfulApi.Controllers
 
             return Ok(game);
         }
+
+
+        //--- Ödevdeki bonus görevler ---//
+
+        //Sort by name or genre
+        [HttpGet("SortByNameOrGenre")]
+        public ActionResult<List<Game>> Sorting([FromQuery] bool? sortByName, [FromQuery] bool? sortByGenre)
+        {
+            if (sortByName != false)
+            {
+                games.Sort((x, y) => x.Name.CompareTo(y.Name));
+                return Ok(games);
+            }
+
+            if (sortByGenre != false)
+            {
+                games.Sort((x, y) => x.Genre.CompareTo(y.Genre));
+                return Ok(games);
+            }
+
+            return BadRequest("Sıralama yapılamadı...");
+        }
+
+        //List by name
+        [HttpGet("ListByName")]
+        public IActionResult GetGames([FromQuery] string name)
+        {
+            IEnumerable<Game> filteredGames = games;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                filteredGames = games.Where(x => x.Name.ToLower().Contains(name.ToLower()));
+            }
+
+            return Ok(filteredGames);
+        }
     }
 }
