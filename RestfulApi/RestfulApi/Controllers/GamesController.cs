@@ -101,16 +101,20 @@ namespace RestfulApi.Controllers
             return Ok("Oyun silindi.");
         }
 
-        [HttpPatch]
-        public IActionResult PatchGame(long id, [FromBody] JsonPatchDocument<Game> patch)
+        [HttpPatch("{id}")]
+        public IActionResult UpdateGame(int id, [FromBody] Game updatedGame)
         {
-            var game = games.FirstOrDefault(x => x.Id == id);
+            var game = games.Find(x => x.Id == id);
+            if (game is null)
+            {
+                return NotFound("Böyle bir oyun yok...");
+            }
 
-            if (game is null) return NotFound("Couldn't find a game...");
+            // Güncelleme işlemleri
+            game.Name = updatedGame.Name;
+            game.Platform = updatedGame.Platform;
 
-            //patch.ApplyTo(game, ModelState);
-
-            return Ok(patch);
+            return Ok(game);
         }
     }
 }
